@@ -1,4 +1,4 @@
-var optionsProfileVisit = {
+var requests_history_chart = {
 	annotations: {
 		position: 'back'
 	},
@@ -15,8 +15,8 @@ var optionsProfileVisit = {
 	plotOptions: {
 	},
 	series: [{
-		name: 'sales',
-		data: [9,20,30,20,10,20,30,20,10,20,30,20]
+		name: 'requests',
+		data: [500,1000,700,20,800,1200,20,1000,10,20,800,20]
 	}],
 	colors: '#435ebe',
 	xaxis: {
@@ -24,9 +24,9 @@ var optionsProfileVisit = {
 	},
 }
 let optionsVisitorsProfile  = {
-	series: [70, 30],
-	labels: ['Male', 'Female'],
-	colors: ['#435ebe','#55c6e8'],
+	series: [100, 30 , 20],
+	labels: ['free','pro','business'],
+	colors: ['#435ebe','#55c6e8' , '#953688'],
 	chart: {
 		type: 'donut',
 		width: '100%',
@@ -103,8 +103,8 @@ let optionsIndonesia = {
 
 
 
-var chartProfileVisit = new ApexCharts(document.querySelector("#chart-profile-visit"), optionsProfileVisit);
-var chartVisitorsProfile = new ApexCharts(document.getElementById('chart-visitors-profile'), optionsVisitorsProfile)
+var requests_history = new ApexCharts(document.querySelector("#chart-requests"), requests_history_chart);
+var donut_clients_chart = new ApexCharts(document.getElementById('donught-client-chart'), optionsVisitorsProfile)
 var chartEurope = new ApexCharts(document.querySelector("#chart-europe"), optionsEurope);
 var chartAmerica = new ApexCharts(document.querySelector("#chart-america"), optionsAmerica);
 var chartIndonesia = new ApexCharts(document.querySelector("#chart-indonesia"), optionsIndonesia);
@@ -112,5 +112,5 @@ var chartIndonesia = new ApexCharts(document.querySelector("#chart-indonesia"), 
 chartIndonesia.render();
 chartAmerica.render();
 chartEurope.render();
-chartProfileVisit.render();
-chartVisitorsProfile.render()
+requests_history.render();
+donut_clients_chart.render()

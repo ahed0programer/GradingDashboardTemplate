@@ -10,6 +10,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/bootstrap.css">
 
+    <link rel="stylesheet" href="assets/vendors/chartjs/Chart.min.css">
+
     <link rel="stylesheet" href="assets/vendors/iconly/bold.css">
 
     <link rel="stylesheet" href="assets/vendors/perfect-scrollbar/perfect-scrollbar.css">
@@ -511,8 +513,8 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-md-8">
-                                                    <h6 class="text-muted font-semibold">Profile Views</h6>
-                                                    <h6 class="font-extrabold mb-0">112.000</h6>
+                                                    <h6 class="text-muted font-semibold">Income</h6>
+                                                    <h6 class="font-extrabold mb-0">$ 112,0</h6>
                                                 </div>
                                             </div>
                                         </div>
@@ -528,8 +530,8 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-md-8">
-                                                    <h6 class="text-muted font-semibold">Followers</h6>
-                                                    <h6 class="font-extrabold mb-0">183.000</h6>
+                                                    <h6 class="text-muted font-semibold">Clients</h6>
+                                                    <h6 class="font-extrabold mb-0">183,000</h6>
                                                 </div>
                                             </div>
                                         </div>
@@ -545,8 +547,8 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-md-8">
-                                                    <h6 class="text-muted font-semibold">Following</h6>
-                                                    <h6 class="font-extrabold mb-0">80.000</h6>
+                                                    <h6 class="text-muted font-semibold">Business Clients</h6>
+                                                    <h6 class="font-extrabold mb-0">80</h6>
                                                 </div>
                                             </div>
                                         </div>
@@ -562,7 +564,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-md-8">
-                                                    <h6 class="text-muted font-semibold">Saved Post</h6>
+                                                    <h6 class="text-muted font-semibold">Requests rate</h6>
                                                     <h6 class="font-extrabold mb-0">112</h6>
                                                 </div>
                                             </div>
@@ -571,13 +573,38 @@
                                 </div>
                             </div>
                             <div class="row">
+                                <div class="col-md-6 col-md-4">
+                                    <div class="card">
+                                        <div class="card-header d-flex justify-content-between">
+                                            <h4 class="card-title">Clients</h4>
+                                            <span> last 10 days</span>
+                                        </div>
+                                        <div class="card-body">
+                                            <canvas id="users_line"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 col-md-4">
+                                    <div class="card">
+                                        <div class="card-header d-flex justify-content-between">
+                                            <h4 class="card-title">Requests rate</h4>
+                                            <span> last 10 days</span>
+                                        </div>
+                                        <div class="card-body">
+                                            <canvas id="requests_line"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
                                 <div class="col-12">
                                     <div class="card">
                                         <div class="card-header">
-                                            <h4>Profile Visit</h4>
+                                            <h4>Use Rate </h4>
+                                            <span>requests statistics</span>
                                         </div>
                                         <div class="card-body">
-                                            <div id="chart-profile-visit"></div>
+                                            <div id="chart-requests"></div>
                                         </div>
                                     </div>
                                 </div>
@@ -699,16 +726,11 @@
                         </div>
                         <div class="col-12 col-lg-3">
                             <div class="card">
-                                <div class="card-body py-4 px-5">
-                                    <div class="d-flex align-items-center">
-                                        <div class="avatar avatar-xl">
-                                            <img src="assets/images/faces/1.jpg" alt="Face 1">
-                                        </div>
-                                        <div class="ms-3 name">
-                                            <h5 class="font-bold">John Duck</h5>
-                                            <h6 class="text-muted mb-0">@johnducky</h6>
-                                        </div>
-                                    </div>
+                                <div class="card-header">
+                                    <h4>Clients</h4>
+                                </div>
+                                <div class="card-body">
+                                    <div id="donught-client-chart"></div>
                                 </div>
                             </div>
                             <div class="card">
@@ -749,14 +771,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="card">
-                                <div class="card-header">
-                                    <h4>Visitors Profile</h4>
-                                </div>
-                                <div class="card-body">
-                                    <div id="chart-visitors-profile"></div>
-                                </div>
-                            </div>
+                            
                         </div>
                     </section>
                 </div>
@@ -780,6 +795,147 @@
 
     <script src="assets/vendors/apexcharts/apexcharts.js"></script>
     <script src="assets/js/pages/dashboard.js"></script>
+
+    <script src="assets/vendors/chartjs/Chart.min.js"></script>
+   
+    <script>
+        const users_line_chart = new Chart("users_line", {
+            type: "line",
+            data: {
+            labels: ['16-07-2018', '17-07-2018', '18-07-2018', '19-07-2018', '20-07-2018', '21-07-2018', '22-07-2018', '23-07-2018', '24-07-2018', '25-07-2018'],
+            datasets: [{
+                label: 'free tier',
+                data: [10, 15, 20, 30, 30, 35, 40, 50, 45, 50],
+                // backgroundColor: "rgba(50, 69, 209,.6)",
+                borderWidth: 3,
+                borderColor: 'rgba(63,82,227,1)',
+                // pointBorderWidth: 0,
+                // pointBorderColor: 'transparent',
+                // pointRadius: 3,
+                // pointBackgroundColor: 'transparent',
+                pointHoverBackgroundColor: 'rgba(63,82,227,1)',
+            }, {
+                label: 'bussnies',
+                data: [30, 40, 50, 65, 90, 100, 105, 90, 100, 120],
+                borderWidth: 3,
+                borderColor: 'rgba(253, 183, 90,.6)',
+                pointHoverBackgroundColor: 'rgba(63,82,227,1)',
+            }]
+            },
+            options: {
+        responsive: true,
+        layout: {
+            padding: {
+                top: 10,
+            },
+        },
+        tooltips: {
+            intersect: false,
+            titleFontFamily: 'Helvetica',
+            titleMarginBottom: 10,
+            xPadding: 10,
+            yPadding: 10,
+            cornerRadius: 3,
+        },
+        legend: {
+            display: true,
+        },
+        scales: {
+            yAxes: [
+                {
+                    gridLines: {
+                        display: true,
+                        drawBorder: true,
+                    },
+                    ticks: {
+                        display: true,
+                    },
+                },
+            ],
+            xAxes: [
+                {
+                    gridLines: {
+                        drawBorder: false,
+                        display: false,
+                    },
+                    ticks: {
+                        display: false,
+                    },
+                },
+            ],
+        },
+    }
+        });
+    </script>
+    <script>
+        const requests_line_chart = new Chart("requests_line", {
+            type: "line",
+            data: {
+            labels: ['16-07-2018', '17-07-2018', '18-07-2018', '19-07-2018', '20-07-2018', '21-07-2018', '22-07-2018', '23-07-2018', '24-07-2018', '25-07-2018'],
+            datasets: [{
+                label: 'free tier',
+                data: [50, 25, 61, 50, 72, 52, 60, 41, 30, 45],
+                // backgroundColor: "rgba(50, 69, 209,.6)",
+                borderWidth: 3,
+                borderColor: 'rgba(63,82,227,1)',
+                // pointBorderWidth: 0,
+                // pointBorderColor: 'transparent',
+                // pointRadius: 3,
+                // pointBackgroundColor: 'transparent',
+                pointHoverBackgroundColor: 'rgba(63,82,227,1)',
+            }, {
+                label: 'bussnies',
+                data: [20, 35, 45, 75, 37, 86, 45, 65, 25, 53],
+                borderWidth: 3,
+                borderColor: 'rgba(253, 183, 90,.6)',
+                pointHoverBackgroundColor: 'rgba(63,82,227,1)',
+            }]
+            },
+            options: {
+        responsive: true,
+        layout: {
+            padding: {
+                top: 10,
+            },
+        },
+        tooltips: {
+            intersect: false,
+            titleFontFamily: 'Helvetica',
+            titleMarginBottom: 10,
+            xPadding: 10,
+            yPadding: 10,
+            cornerRadius: 3,
+        },
+        legend: {
+            display: true,
+        },
+        scales: {
+            yAxes: [
+                {
+                    gridLines: {
+                        display: true,
+                        drawBorder: true,
+                    },
+                    ticks: {
+                        display: true,
+                    },
+                },
+            ],
+            xAxes: [
+                {
+                    gridLines: {
+                        drawBorder: false,
+                        display: false,
+                    },
+                    ticks: {
+                        display: false,
+                    },
+                },
+            ],
+        },
+    }
+        });
+    </script>
 
     <script src="assets/js/main.js"></script>
 </body>
